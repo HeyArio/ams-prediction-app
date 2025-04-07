@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیش‌بینی بیماری ارتفاع | AMS Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>سیستم پیش‌بینی بیماری ارتفاع (AMS)</h1>
+            <h2>Acute Mountain Sickness Prediction System</h2>
+        </div>
+
+        <div class="form-section">
+            {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+            <form method="POST" id="predictionForm">
+                <!-- ارتفاع / Elevation -->
+                <div class="form-group">
+                    <label for="ort">ارتفاع (متر) / Elevation (m)</label>
+                    <input type="number" id="ort" name="ort" step="any" min="0" required>
+                    <p class="hint"></p>
+                </div>
+
+                <!-- راهنما / Guide -->
+                <div class="form-group">
+                    <label for="guide">راهنما / Guide</label>
+                    <select id="guide" name="guide" required>
+                        <option value="0">بدون راهنما / No guide</option>
+                        <option value="0.5">نیمه راهنما / Partial guide</option>
+                        <option value="1">کامل / Full guide</option>
+                    </select>
+                </div>
+
+                <!-- جنسیت / Gender -->
+                <div class="form-group">
+                    <label for="gender">جنسیت / Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="0">زن / Female</option>
+                        <option value="1">مرد / Male</option>
+                    </select>
+                </div>
+
+                <!-- سن / Age -->
+                <div class="form-group">
+                    <label for="age">سن (سال) / Age (years)</label>
+                    <input type="number" id="age" name="age" step="any" min="0" required>
+                    <p class="hint"></p>
+                </div>
+
+                <!-- صعود آهسته / Slow Ascent -->
+                <div class="form-group">
+                    <label for="slow">صعود آهسته / Slow Ascent</label>
+                    <select id="slow" name="slow" required>
+                        <option value="0">خیر / No</option>
+                        <option value="1">بله / Yes</option>
+                    </select>
+                </div>
+
+                <!-- پیش‌سازگاری / Pre-Acclimatization -->
+                <div class="form-group">
+                    <label for="pre_acclimatization">پیش‌سازگاری / Pre-Acclimatization</label>
+                    <select id="pre_acclimatization" name="pre_acclimatization" required>
+                        <option value="0">خیر / No</option>
+                        <option value="1">بله / Yes</option>
+                    </select>
+                </div>
+
+                <!-- امتیاز دانش / Knowledge Score -->
+                <div class="form-group">
+                    <label for="knowledge_score">امتیاز دانش / Knowledge Score</label>
+                    <input type="number" id="knowledge_score" name="knowledge_score" step="any"  min="0" required>
+                    <p class="hint"></p>
+                </div>
+
+                <!-- سابقه AMS / AMS History -->
+                <div class="form-group">
+                    <label for="ams_history">سابقه AMS / AMS History</label>
+                    <select id="ams_history" name="ams_history" required>
+                        <option value="0">غیر قابل برسی‌ / Undetectable </option>
+                        <option value="0.5">بدون سابقه / No History</option>
+                        <option value="1">دارای سابقه / Predisposed</option>
+                    </select>
+                </div>
+
+                <button type="submit">محاسبه خطر / Calculate Risk</button>
+            </form>
+        </div>
+
+        <div class="result-section">
+            <div class="result-container">
+                {% if show_result %}
+                <h2>احتمال ابتلا به بیماری / Risk of Developing This Disease</h2>
+                <div class="probability">{{ probability }}</div>
+                <div class="risk-level 
+                    {% if 'High' in result %}high-risk
+                    {% elif 'Moderate' in result %}moderate-risk
+                    {% else %}low-risk
+                    {% endif %}">
+                    {{ result }}
+                </div>
+                    <!-- div class="interpretation">
+                        <h3>تفسیر / Interpretation</h3>
+                        <ul>
+                            <li><span class="low-risk">کمتر از ۳۰٪:</span> خطر کم / Low Risk</li>
+                            <li><span class="moderate-risk">۳۰-۷۰٪:</span> خطر متوسط / Moderate Risk</li>
+                            <li><span class="high-risk">بیشتر از ۷۰٪:</span> خطر زیاد / High Risk</li>
+                        </ul>
+                    </div -->
+                {% else %}
+                    <h2>نتایج / Results</h2>
+                    <p>لطفا اطلاعات را وارد نمایید / Please submit the form</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

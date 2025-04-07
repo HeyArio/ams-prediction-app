@@ -6,3 +6,6 @@ services:
     startCommand: python app.py
     plan: free
     autoDeploy: true
+env:
+  - key: PORT
+    value: 10000

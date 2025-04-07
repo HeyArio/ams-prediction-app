@@ -7,10 +7,7 @@ app = Flask(__name__)
 model = load_model('model/ams_prediction_model.keras')
 
 def normalize_input(features):
-    """
-    Normalize input features using original min-max scaling
-    Note: Still uses original scaling factors but doesn't enforce limits
-    """
+    """Normalize input features using original min-max scaling"""
     feature_min = np.array([2850, 0, 0, 18, 0, 0, 0, 0])
     feature_max = np.array([4559, 1, 1, 77, 1, 1, 8.607, 1])
     
@@ -40,7 +37,6 @@ def index():
             result = "High AMS Risk" if probability > 0.5 else "Low AMS Risk"
             
             return render_template('index.html',
-                                #result=result,
                                 probability=f"{probability:.2%}",
                                 show_result=True)
             
@@ -52,4 +48,4 @@ def index():
     return render_template('index.html', show_result=False)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))  # Removed debug=True

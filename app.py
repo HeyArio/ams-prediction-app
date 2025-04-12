@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 import os
 
 app = Flask(__name__)
-model = load_model('model/ams_prediction_model.h5')
+model = load_model('model/python.h5')
 
 def normalize_input(features):
     """Normalize input features using original min-max scaling"""
